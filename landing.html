@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AJ Leary</title>
+    </head>
+    <body>
+        <h1>AJ Leary</h1>
+    </body>
+    <body>
+    <!-- Nav bar -->
+    <nav class="nav-container">
+      <div class="nav-miniLogo">
+        <a href="landing.html"
+          ><img
+            src="{{ url_for('static', filename='img/navLogo.png') }}"
+            class="nav-miniLogo"
+            alt="logo"
+        /></a>
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li>
+            <a href="contact.html">Contact Physician</a>
+          </li>
+          <li><a href="schedule.html">Schedule Appointmet</a></li>
+          <li><a href="{{ url_for('visits') }}">Visits</a></li>
+            <li><a href="test_results.html">Test Results</a></li>
+            <li><a href="medication.html">Prescriptions</a></li>
+            <li><a href="billing.html">Billing</a></li>
+        </ul>
+      </div>
+      </nav>
+      {% block content %}
+      {% endblock %}
+
+      <!Mobile Nav>
+      <button id="mobile-nav-toggle" aria-label="Toggle mobile navigation">
+        <i class="fa fa-bars"></i>
+        </button>
+        <nav id="sideNavBar" class="side-nav"
+        <div class="sideNavBarLinks"> 
+            <ul>
+                <li>
+                <a href="{{ url_for('contact') }}">Contact Physician</a>
+                </li>
+                <li><a href="{{ url_for('schedule') }}">Schedule Appointmet</a></li>
+                <li><a href="{{ url_for('visits') }}">Visits</a></li>
+                <li><a href="{{ url_for('test_results') }}">Test Results</a></li>
+                <li><a href="{{ url_for('prescriptions') }}">Prescriptions</a></li>
+                <li><a href="{{ url_for('billing') }}">Billing</a></li>
+            </ul>
+            
+        </div>
+
+
+    </body>
+</html>
+
+
+
