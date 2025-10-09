@@ -1,59 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>AJ Leary</title>
-    </head>
-    <body>
-        <h1>AJ Leary</h1>
-    </body>
-    <body>
-    <!-- Nav bar -->
-    <nav class="nav-container">
-      <div class="nav-miniLogo">
-        <a href="{{ url_for('main') }}"
-          ><img
-            src="{{ url_for('static', filename='img/navLogo.png') }}"
-            class="nav-miniLogo"
-            alt="logo"
-        /></a>
-      </div>
-      <div class="nav-links">
-        <ul>
-          <li>
-            <a href="contact.html">Contact Physician</a>
-          </li>
-          <li><a href="schedule.html">Schedule Appointmet</a></li>
-          <li><a href="{{ url_for('visits') }}">Visits</a></li>
-            <li><a href="test_results.html">Test Results</a></li>
-            <li><a href="medication.html">Prescriptions</a></li>
-            <li><a href="billing.html">Billing</a></li>
-        </ul>
-      </div>
-      </nav>
-      {% block content %}
-      {% endblock %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link rel rel="stylesheet" href="landing.css" />
 
-      <!Mobile Nav>
-      <button id="mobile-nav-toggle" aria-label="Toggle mobile navigation">
-        <i class="fa fa-bars"></i>
-        </button>
-        <nav id="sideNavBar" class="side-nav"
-        <div class="sideNavBarLinks"> 
-            <ul>
-                <li>
-                <a href="{{ url_for('contact') }}">Contact Physician</a>
-                </li>
-                <li><a href="{{ url_for('schedule') }}">Schedule Appointmet</a></li>
-                <li><a href="{{ url_for('visits') }}">Visits</a></li>
-                <li><a href="{{ url_for('test_results') }}">Test Results</a></li>
-                <li><a href="{{ url_for('prescriptions') }}">Prescriptions</a></li>
-                <li><a href="{{ url_for('billing') }}">Billing</a></li>
-            </ul>
-            
-        </div>
+
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f6f9fb;
+        color: #333;
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: 80px 1fr;
+        height: 100vh;
+        gap: 20px;
+      }
+
+      /* ---------- HEADER ---------- */
+      header {
+        grid-column: 1 / 3;
+        background-color: #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #007baf;
+      }
+
+      /* ---------- NAVIGATION ---------- */
+      nav {
+        background-color: #ffffff;
+        border-right: 1px solid #e0e0e0;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+      }
+
+      nav img {
+        width: 120px;
+        margin-bottom: 20px;
+      }
+
+      nav a {
+        display: block;
+        text-decoration: none;
+        color: #333;
+        padding: 12px 16px;
+        margin: 5px 0;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      nav a:hover {
+        background-color: #e8f6fc;
+        color: #007baf;
+      }
+
+      /* ---------- MAIN CONTENT ---------- */
+      main {
+        padding: 20px 40px;
+        overflow-y: auto;
+      }
+
+      .upcoming-appointments-container {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .upcoming-appointments-header {
+        display: flex;
+        align-items: center;
+        justify-content:space-between;
+        margin-bottom: 10px;
+      }
+
+      .upcoming-appointments {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: flex;
+      }
+
+      .upcoming-appointments- label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 500px;
+      }
+
+      .appointment-form label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 500px;
+      }
+
+      .appointment-form input,
+      .appointment-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+    </style>
+</head>
+    <!-- HEADER -->
+    <header>
+        <h1> Welcome to Leary Patient Portal</h1>
+        <i class="fas fa-user-circle fa-2x"></i>
+    </header>
+    <!-- Nav bar -->
+    <nav>
+      <img src="{{ url_for('static', filename='img/navLogo.png') }}" alt="logo" />
+      <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
+      <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
+      <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
+      <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+      <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
+      <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
+      <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
+    </nav>
+      <!--MAIN CONTENT-->
+    <main>
+
+      <div id = "Upcoming Appointments">
+        <center>
+          <h2> Upcoming Appointments</h2>
+        </center>
+      </div>
+
+      <div id = "Landing Page Billing Column"
+          <h2> Billing Summary</h2>
+
+    </main>
+
+  
+        
 
 
     </body>

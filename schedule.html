@@ -1,37 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Calendar</title>
-    <link rel="stylesheet" href="calendar.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Portal - Calendar</title>
+
+  <!-- Font Awesome & Google Fonts -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f6f9fb;
+      color: #333;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 80px 1fr;
+      height: 100vh;
+      gap: 20px;
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      grid-column: 1 / 3;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #007baf;
+    }
+
+    /* ---------- NAVIGATION ---------- */
+    nav {
+      background-color: #ffffff;
+      border-right: 1px solid #e0e0e0;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    nav img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      padding: 12px 16px;
+      margin: 5px 0;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #e8f6fc;
+      color: #007baf;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    main {
+      padding: 20px 40px;
+      overflow-y: auto;
+    }
+
+    .calendar-container {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: flex;
+      margin-bottom: 40px;
+      padding: 20px;
+    }
+
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .calendar-header button {
+      border: none;
+      background: #ffffff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    .calendar-header button:hover {
+      background-color: #007baf;
+      color: #fff;
+    }
+
+    .monthYear {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #007baf;
+    }
+
+    .days,
+    .dates {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      gap: 5px;
+    }
+
+    .day {
+      font-weight: 600;
+      color: #555;
+      padding: 8px 0;
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      color: #333;
+      transition: 0.2s;
+    }
+
+    .date:hover {
+      background-color: #007baf;
+      color: white;
+    }
+
+    .date.inactive {
+      color: #ccc;
+    }
+
+    /* ---------- FORM ---------- */
+    .appointment-form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+    }
+
+    .appointment-form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .appointment-form input,
+    .appointment-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .appointment-form button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background-color: #007baf;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .appointment-form button:hover {
+      background-color: #005f87;
+    }
+  </style>
 </head>
 <body>
-        <div id="calendar">
-            <div class = "header">
-                 <button id="prevBtn">
-                    <i class = "fa-solid fa-chevron-left"></i>
-                </button>
-                <div class="monthYear" id="monthYear"></div>  
-                <button id="nextBtn">
-                    <i class = "fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
-            
-            <div class = "days">
-                <div class="day">Mon</div>
-                <div class="day">Tue</div>
-                <div class="day">Wed</div>
-                <div class="day">Thu</div>
-                <div class="day">Fri</div>
-                <div class="day">Sat</div>
-                <div class="day">Sun</div>
-            </div>
-            <div class="dates" id="dates"></div>
-        </div>
 
-    <script src="calendar.js"></script>
+  <!-- HEADER -->
+  <header>
+    <h1>Patient Portal - Calendar</h1>
+    <i class="fas fa-user-circle fa-2x"></i>
+  </header>
 
+  <!-- SIDEBAR NAVIGATION -->
+  <nav>
+    <img src="{{ url_for('static', filename='img/navLogo.png') }}" alt="logo" />
+    <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
+    <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
+    <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
+    <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+    <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
+    <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
+    <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- Calendar -->
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <button id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="monthYear" id="monthYear">October 2025</div>
+        <button id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+
+      <div class="days">
+        <div class="day">Mon</div>
+        <div class="day">Tue</div>
+        <div class="day">Wed</div>
+        <div class="day">Thu</div>
+        <div class="day">Fri</div>
+        <div class="day">Sat</div>
+        <div class="day">Sun</div>
+      </div>
+
+      <div class="dates" id="dates"></div>
+    </div>
+
+    <!-- Appointment Form -->
+    <div class="appointment-form">
+      <h2>Request an Appointment</h2>
+      <form action="#" method="post">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+
+        <button type="submit">Send Request</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="calendar.js"></script>
 </body>
 </html>
