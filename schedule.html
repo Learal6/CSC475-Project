@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patient Portal - Calendar</title>
+  <title>Patient Portal - Smart Calendar</title>
 
-  <!-- Font Awesome & Google Fonts -->
+  <!-- Fonts & Icons -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -28,12 +28,11 @@
       color: #333;
       display: grid;
       grid-template-columns: 250px 1fr;
-      grid-template-rows: 80px 1fr;
-      height: 100vh;
-      gap: 20px;
+      grid-template-rows: 60px 1fr;
+      min-height: 100vh;
     }
 
-    /* ---------- HEADER ---------- */
+    /* HEADER */
     header {
       grid-column: 1 / 3;
       background-color: #ffffff;
@@ -41,21 +40,32 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     header h1 {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: #007baf;
     }
 
-    /* ---------- NAVIGATION ---------- */
+    .menu-btn {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #007baf;
+    }
+
+    /* SIDEBAR */
     nav {
       background-color: #ffffff;
       border-right: 1px solid #e0e0e0;
       padding: 20px;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
     }
 
     nav img {
@@ -64,10 +74,12 @@
     }
 
     nav a {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
       color: #333;
-      padding: 12px 16px;
+      padding: 10px 14px;
       margin: 5px 0;
       border-radius: 8px;
       font-weight: 500;
@@ -79,9 +91,9 @@
       color: #007baf;
     }
 
-    /* ---------- MAIN CONTENT ---------- */
+    /* MAIN */
     main {
-      padding: 20px 40px;
+      padding: 20px;
       overflow-y: auto;
     }
 
@@ -89,7 +101,7 @@
       background-color: #ffffff;
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      max-width: flex;
+      max-width: 500px;
       margin-bottom: 40px;
       padding: 20px;
     }
@@ -128,7 +140,7 @@
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       text-align: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .day {
@@ -147,6 +159,7 @@
       font-weight: 500;
       color: #333;
       transition: 0.2s;
+      position: relative;
     }
 
     .date:hover {
@@ -158,46 +171,159 @@
       color: #ccc;
     }
 
-    /* ---------- FORM ---------- */
-    .appointment-form {
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
+    .has-appointment::after {
+      content: "•";
+      color: #007baf;
+      position: absolute;
+      bottom: -5px;
+      font-size: 1.2rem;
     }
 
-    .appointment-form label {
+    /* MODAL */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.3s ease-in-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-content h3 {
+      margin-bottom: 10px;
+      color: #007baf;
+    }
+
+    .appointment-list {
+      background: #f2f9fc;
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    .appointment-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .appointment-item:last-child {
+      border-bottom: none;
+    }
+
+    .delete-btn {
+      border: none;
+      background: none;
+      color: #e63946;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    .delete-btn:hover {
+      color: #c71c2b;
+    }
+
+    .modal-content label {
       display: block;
       margin-top: 10px;
       font-weight: 500;
     }
 
-    .appointment-form input,
-    .appointment-form textarea {
+    .modal-content textarea {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 0.95rem;
+      margin-top: 5px;
     }
 
-    .appointment-form button {
+    .modal-content button {
       margin-top: 15px;
       width: 100%;
       padding: 10px;
       background-color: #007baf;
       color: white;
-      font-size: 1rem;
       border: none;
       border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
       transition: 0.3s;
     }
 
-    .appointment-form button:hover {
+    .modal-content button:hover {
       background-color: #005f87;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      float: right;
+      cursor: pointer;
+      color: #555;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      body {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: fixed;
+        left: -260px;
+        top: 60px;
+        height: calc(100% - 60px);
+        width: 250px;
+        z-index: 5;
+        transition: all 0.3s ease;
+      }
+
+      nav.active {
+        left: 0;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      main {
+        padding-top: 80px;
+      }
     }
   </style>
 </head>
@@ -206,28 +332,27 @@
   <!-- HEADER -->
   <header>
     <h1>Patient Portal - Calendar</h1>
-    <i class="fas fa-user-circle fa-2x"></i>
+    <i class="fas fa-bars menu-btn" id="menuToggle"></i>
   </header>
 
-  <!-- SIDEBAR NAVIGATION -->
-  <nav>
-    <img src="{{ url_for('static', filename='img/navLogo.png') }}" alt="logo" />
+  <!-- SIDEBAR NAV -->
+  <nav id="sidebar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Hospital_icon.svg" alt="logo" />
     <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
     <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
     <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
-    <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+    <a href=""><i class="fa-solid fa-notes-medical"></i> Visits</a>
     <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
-    <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
+    <a href="#"><i class="fa-solid fa-pills"></i> Prescriptions</a>
     <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
   </nav>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main>
-    <!-- Calendar -->
     <div class="calendar-container">
       <div class="calendar-header">
         <button id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
-        <div class="monthYear" id="monthYear">October 2025</div>
+        <div class="monthYear" id="monthYear"></div>
         <button id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
       </div>
 
@@ -243,25 +368,134 @@
 
       <div class="dates" id="dates"></div>
     </div>
-
-    <!-- Appointment Form -->
-    <div class="appointment-form">
-      <h2>Request an Appointment</h2>
-      <form action="#" method="post">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required />
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
-
-        <button type="submit">Send Request</button>
-      </form>
-    </div>
   </main>
 
-  <script src="calendar.js"></script>
+  <!-- MODAL -->
+  <div class="modal" id="appointmentModal">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <h3>Appointments for <span id="apptDateTitle"></span></h3>
+      <div class="appointment-list" id="appointmentList"></div>
+      <form id="appointmentForm">
+        <label for="apptReason">Add New Appointment</label>
+        <textarea id="apptReason" name="apptReason" rows="3" placeholder="e.g., Follow-up with Dr. Smith" required></textarea>
+        <button type="submit">Save Appointment</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const monthYear = document.getElementById("monthYear");
+    const datesContainer = document.getElementById("dates");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const modal = document.getElementById("appointmentModal");
+    const closeModal = document.getElementById("closeModal");
+    const apptDateTitle = document.getElementById("apptDateTitle");
+    const appointmentList = document.getElementById("appointmentList");
+    const form = document.getElementById("appointmentForm");
+    const apptReason = document.getElementById("apptReason");
+
+    let currentDate = new Date();
+    let selectedDate = null;
+    let appointments = JSON.parse(localStorage.getItem("appointments")) || {};
+
+    menuToggle.addEventListener("click", () => sidebar.classList.toggle("active"));
+    closeModal.addEventListener("click", () => modal.classList.remove("active"));
+    modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("active"); });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const reason = apptReason.value.trim();
+      if (!reason) return;
+
+      if (!appointments[selectedDate]) appointments[selectedDate] = [];
+      appointments[selectedDate].push(reason);
+      localStorage.setItem("appointments", JSON.stringify(appointments));
+      apptReason.value = "";
+      renderAppointments();
+      renderCalendar();
+    });
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const prevDays = firstDay === 0 ? 6 : firstDay - 1;
+      const prevMonthDays = new Date(year, month, 0).getDate();
+
+      datesContainer.innerHTML = "";
+      monthYear.textContent = currentDate.toLocaleString("default", { month: "long", year: "numeric" });
+
+      for (let i = prevDays; i > 0; i--) {
+        const div = document.createElement("div");
+        div.classList.add("date", "inactive");
+        div.textContent = prevMonthDays - i + 1;
+        datesContainer.appendChild(div);
+      }
+
+      for (let i = 1; i <= daysInMonth; i++) {
+        const div = document.createElement("div");
+        div.classList.add("date");
+        div.textContent = i;
+
+        const fullDate = new Date(year, month, i).toDateString();
+        if (appointments[fullDate]) div.classList.add("has-appointment");
+
+        if (i === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+          div.style.backgroundColor = "#007baf";
+          div.style.color = "white";
+        }
+
+        div.addEventListener("click", () => {
+          selectedDate = fullDate;
+          apptDateTitle.textContent = fullDate;
+          renderAppointments();
+          modal.classList.add("active");
+        });
+
+        datesContainer.appendChild(div);
+      }
+    }
+
+    function renderAppointments() {
+      appointmentList.innerHTML = "";
+      const list = appointments[selectedDate] || [];
+      if (list.length === 0) {
+        appointmentList.innerHTML = "<p>No appointments scheduled.</p>";
+      } else {
+        list.forEach((item, i) => {
+          const div = document.createElement("div");
+          div.classList.add("appointment-item");
+          div.innerHTML = `
+            <span>• ${item}</span>
+            <button class="delete-btn" data-index="${i}">
+              <i class="fa-solid fa-trash"></i>
+            </button>`;
+          appointmentList.appendChild(div);
+        });
+
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            const index = e.target.closest("button").dataset.index;
+            appointments[selectedDate].splice(index, 1);
+            if (appointments[selectedDate].length === 0) delete appointments[selectedDate];
+            localStorage.setItem("appointments", JSON.stringify(appointments));
+            renderAppointments();
+            renderCalendar();
+          });
+        });
+      }
+    }
+
+    prevBtn.addEventListener("click", () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
+    nextBtn.addEventListener("click", () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+
+    renderCalendar();
+  </script>
 </body>
 </html>

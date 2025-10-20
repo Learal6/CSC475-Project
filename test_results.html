@@ -1,51 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Test Results</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Test Results</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* -------- GRID LAYOUT: Sidebar + Header + Main -------- */
+    body {
+      background: #f6f9fb;
+      color: #333;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 60px 1fr;
+      min-height: 100vh;
+    }
+
+    /* -------- HEADER -------- */
+    header {
+      grid-column: 1 / 3;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #007baf;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #007baf;
+    }
+
+    /* -------- SIDEBAR -------- */
+    nav {
+      background-color: #ffffff;
+      border-right: 1px solid #e0e0e0;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    nav img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #333;
+      padding: 10px 14px;
+      margin: 5px 0;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #e8f6fc;
+      color: #007baf;
+    }
+
+    nav a.active {
+      background-color: #007baf;
+      color: white;
+    }
+
+    /* -------- MAIN CONTENT -------- */
+    main {
+      padding: 20px 40px;
+      overflow-y: auto;
+    }
+
+    section {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    section h2 {
+      color: #007baf;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    section p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+
+    /* -------- TABLE -------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007baf;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr.details {
+      display: none;
+      background-color: #f1faff;
+    }
+
+    tr.details td {
+      border-top: none;
+      padding: 15px 20px;
+    }
+
+    tr.expandable:hover {
+      background-color: #e8f6fc;
+      cursor: pointer;
+    }
+
+    .details-content {
+      color: #333;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .details-content strong {
+      color: #007baf;
+    }
+
+    /* -------- FOOTER -------- */
+    footer {
+      grid-column: 1 / 3;
+      text-align: center;
+      padding: 15px;
+      background: #ffffff;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* -------- RESPONSIVE -------- */
+    @media (max-width: 800px) {
+      body {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: fixed;
+        left: -260px;
+        top: 60px;
+        height: calc(100% - 60px);
+        width: 250px;
+        z-index: 5;
+        transition: all 0.3s ease;
+      }
+
+      nav.active {
+        left: 0;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      main {
+        padding-top: 80px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Patient Test Results</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Patient Information</h2>
-            <p>Name: [Patient Name]</p>
-            <p>Age: [Patient Age]</p>
-            <p>Gender: [Patient Gender]</p>
-            <p>Test Date: [Test Date]</p>
-        </section>
-        <section>
-            <h2>Test Results</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Test Name</th>
-                        <th>Result</th>
-                        <th>Normal Range</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>[Test 1]</td>
-                        <td>[Result 1]</td>
-                        <td>[Normal Range 1]</td>
-                    </tr>
-                    <tr>
-                        <td>[Test 2]</td>
-                        <td>[Result 2]</td>
-                        <td>[Normal Range 2]</td>
-                    </tr>
-                    <!-- Add more test results as needed -->
-                </tbody>
-            </table>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; [Year] [Your Organization]. All rights reserved.</p>
-    </footer>
+  <!-- HEADER -->
+  <header>
+    <h1>Patient Test Results</h1>
+    <i class="fas fa-bars menu-btn" id="menuToggle"></i>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <img src="{{ url_for('static', filename='img/navLogo.png') }}" alt="logo" />
+    <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
+    <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
+    <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
+    <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+    <a href="test_results.html" class="active"><i class="fa-solid fa-vials"></i> Test Results</a>
+    <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
+    <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section>
+      <h2>Patient Information</h2>
+      <p><strong>Name:</strong> [Patient Name]</p>
+      <p><strong>Age:</strong> [Patient Age]</p>
+      <p><strong>Gender:</strong> [Patient Gender]</p>
+      <p><strong>Test Date:</strong> [Test Date]</p>
+    </section>
+
+    <section>
+      <h2>Test Results</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Test Name</th>
+            <th>Result</th>
+            <th>Normal Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="expandable">
+            <td>Complete Blood Count (CBC)</td>
+            <td>13.4 g/dL</td>
+            <td>12.0–16.0 g/dL</td>
+          </tr>
+          <tr class="details">
+            <td colspan="3">
+              <div class="details-content">
+                <strong>Physician Notes:</strong> All values within normal range.  
+                <br /><strong>Test Method:</strong> Automated hematology analyzer  
+                <br /><strong>Date Verified:</strong> 2025-10-02
+              </div>
+            </td>
+          </tr>
+
+          <tr class="expandable">
+            <td>Cholesterol (Total)</td>
+            <td>185 mg/dL</td>
+            <td>125–200 mg/dL</td>
+          </tr>
+          <tr class="details">
+            <td colspan="3">
+              <div class="details-content">
+                <strong>Physician Notes:</strong> Borderline high — monitor diet and exercise.  
+                <br /><strong>Test Method:</strong> Enzymatic colorimetric assay  
+                <br /><strong>Date Verified:</strong> 2025-10-02
+              </div>
+            </td>
+          </tr>
+
+          <tr class="expandable">
+            <td>Glucose (Fasting)</td>
+            <td>92 mg/dL</td>
+            <td>70–99 mg/dL</td>
+          </tr>
+          <tr class="details">
+            <td colspan="3">
+              <div class="details-content">
+                <strong>Physician Notes:</strong> Normal fasting glucose. Maintain current regimen.  
+                <br /><strong>Test Method:</strong> Hexokinase enzymatic method  
+                <br /><strong>Date Verified:</strong> 2025-10-02
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Furman University Health Portal. All rights reserved.</p>
+  </footer>
+
+  <!-- SCRIPT: Sidebar + Expandable Rows -->
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const expandableRows = document.querySelectorAll(".expandable");
+
+    // Sidebar toggle
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+    });
+
+    // Expandable table rows
+    expandableRows.forEach((row) => {
+      row.addEventListener("click", () => {
+        const nextRow = row.nextElementSibling;
+        if (nextRow.classList.contains("details")) {
+          nextRow.style.display =
+            nextRow.style.display === "table-row" ? "none" : "table-row";
+        }
+      });
+    });
+  </script>
 </body>
 </html>
