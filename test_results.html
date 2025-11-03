@@ -212,8 +212,8 @@
   </style>
 </head>
 
-<body>
-  <!-- HEADER -->
+<body onload="getPatientInfo()">
+
   <header>
     <h1>Patient Test Results</h1>
     <i class="fas fa-bars menu-btn" id="menuToggle"></i>
@@ -233,72 +233,7 @@
 
   <!-- MAIN CONTENT -->
   <main>
-    <section>
-      <!-- <h2>Patient Information</h2>
-      <p><strong>Name:</strong> [Patient Name]</p>
-      <p><strong>Age:</strong> [Patient Age]</p>
-      <p><strong>Gender:</strong> [Patient Gender]</p>
-      <p><strong>Test Date:</strong> [Test Date]</p> -->
-    </section>
 
-    <section>
-      <h2>Test Results</h2>
-      <table>
-        <!-- <thead>
-          <tr>
-            <th>Test Name</th>
-            <th>Result</th>
-            <th>Normal Range</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <tr class="expandable">
-            <!-- <td>Complete Blood Count (CBC)</td>
-            <td>13.4 g/dL</td>
-            <td>12.0–16.0 g/dL</td> -->
-          </tr>
-          <tr class="details">
-            <td colspan="3">
-              <div class="details-content">
-                <!-- <strong>Physician Notes:</strong> All values within normal range.  
-                <br /><strong>Test Method:</strong> Automated hematology analyzer  
-                <br /><strong>Date Verified:</strong> 2025-10-02 -->
-              </div>
-            </td>
-          </tr>
-
-          <tr class="expandable">
-            <!-- <td>Cholesterol (Total)</td>
-            <td>185 mg/dL</td>
-            <td>125–200 mg/dL</td> -->
-          </tr>
-          <tr class="details">
-            <td colspan="3">
-              <div class="details-content">
-                <!-- <strong>Physician Notes:</strong> Borderline high — monitor diet and exercise.  
-                <br /><strong>Test Method:</strong> Enzymatic colorimetric assay  
-                <br /><strong>Date Verified:</strong> 2025-10-02 -->
-              </div>
-            </td>
-          </tr>
-
-          <tr class="expandable">
-            <!-- <td>Glucose (Fasting)</td>
-            <td>92 mg/dL</td>
-            <td>70–99 mg/dL</td> -->
-          </tr>
-          <tr class="details">
-            <td colspan="3">
-              <div class="details-content">
-                <!-- <strong>Physician Notes:</strong> Normal fasting glucose. Maintain current regimen.  
-                <br /><strong>Test Method:</strong> Hexokinase enzymatic method  
-                <br /><strong>Date Verified:</strong> 2025-10-02 -->
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
   </main>
 
   <!-- FOOTER -->
@@ -329,6 +264,8 @@
     });
 
     function getPatientInfo(){
+
+        console.log('Testing');
         
         // Make get request to http://127.0.0.1:5000 to get 
         fetch('http://127.0.0.1:5000/get_patient_info')
@@ -339,6 +276,7 @@
                 return response.json();
             })
             .then(data => {
+              console.log(data);
                 // Process the data received from the server
                 // Create section for patient info
                 // get main 
@@ -356,6 +294,59 @@
                 p2.innerHTML = `<strong>Age:</strong> ${data.age}`;
                 patientInfoSection.appendChild(p2);
                 p3 = document.createElement('p')
+
+                p3 = document.createElement('p')
+                p3.innerHTML = `<strong>Name:</strong> ${data.gender}`;
+                patientInfoSection.appendChild(p3);
+                p4 = document.createElement('p')
+                p4.innerHTML = `<strong>Test Date:</strong> ${data.test_date}`;
+                patientInfoSection.appendChild(p4);
+
+                mainContent.insertBefore(patientInfoSection, mainContent.children[0]);
+
+
+                const testResultsSection = document.createElement('section');
+                heading = document.createElement('h2')
+                heading.textContent = 'Test Results';
+                testResultsSection.appendChild(heading);
+
+                // Loop over data.test_results
+                for (var i=0; i<data.test_results.length; i++){
+
+                  var test = data.test_results[i];
+
+                  console.log(test);
+
+                  // Create expandable row
+                  var expandableRow = document.createElement('tr');
+                  expandableRow.classList.add('expandable');
+
+                  var testNameTd = document.createElement('td');
+                  testNameTd.innerHTML = test['Test_name'];
+                  expandableRow.appendChild(testNameTd);
+
+                  var resultTd = document.createElement('td');
+                  resultTd.innerHTML = test['Result'];
+                  expandableRow.appendChild(resultTd);
+
+                  var normalRangeTd = document.createElement('td');
+                  normalRangeTd.innerHTML = test['Normal Range'];
+                  expandableRow.appendChild(normalRangeTd);
+
+                  testResultsSection.appendChild(expandableRow);
+                }
+
+                mainContent.insertBefore(testResultsSection, mainContent.children[1]);
+
+
+
+
+
+
+                // mainContent.insertBefore(patientInfoSection, mainContent.children[1]);
+
+                // Append to main content before test results section
+
                 
 
 
