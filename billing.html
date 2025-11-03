@@ -1,23 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing Page</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billing & Insurance</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f6f9fb;
+      color: #333;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 60px 1fr;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      grid-column: 1 / 3;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #007baf;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #007baf;
+    }
+
+    /* SIDEBAR */
+    nav {
+      background-color: #ffffff;
+      border-right: 1px solid #e0e0e0;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    nav img {
+      width: 220px;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #333;
+      padding: 10px 14px;
+      margin: 5px 0;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #e8f6fc;
+      color: #007baf;
+    }
+
+    nav a.active {
+      background-color: #007baf;
+      color: white;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      padding: 30px 40px;
+      overflow-y: auto;
+    }
+
+    .billing-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      max-height: 600px;
+      margin-bottom: 35px;
+    }
+
+    .billing-container h2 {
+      color: #007baf;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background-color: #e8f6fc;
+      color: #007baf;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f9fcfe;
+    }
+
+    .total-due {
+      text-align: right;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    .pay-btn {
+      background-color: #007baf;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      margin-top: 15px;
+      transition: 0.3s;
+      float: right;
+    }
+
+    .pay-btn:hover {
+      background-color: #005f86;
+    }
+
+    /* COLLAPSIBLE SECTION */
+    .collapsible {
+      background-color: #007baf;
+      color: white;
+      cursor: pointer;
+      padding: 14px 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .collapsible:hover {
+      background-color: #005f86;
+    }
+
+    .collapsible i {
+      float: right;
+      transition: transform 0.3s ease;
+    }
+
+    .collapsible.active i {
+      transform: rotate(180deg);
+    }
+
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .content.open {
+      max-height: 500px;
+      margin-top: 10px;
+    }
+
+    /* FOOTER */
+    footer {
+      grid-column: 1 / 3;
+      text-align: center;
+      padding: 15px;
+      background: #ffffff;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* POPUP */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #007baf;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.5s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      body {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: fixed;
+        left: -260px;
+        top: 60px;
+        height: calc(100% - 60px);
+        width: 250px;
+        z-index: 5;
+        transition: all 0.3s ease;
+      }
+
+      nav.active {
+        left: 0;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      main {
+        padding-top: 80px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Billing Information</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Payment Details</h2>
-            <!-- Add payment form here -->
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 Your Company</p>
-    </footer>
+  <!-- HEADER -->
+  <header>
+    <h1>Billing & Insurance</h1>
+    <i class="fas fa-bars menu-btn" id="menuToggle"></i>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <img src="logo.png" alt="logo" />
+    <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
+    <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
+    <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
+    <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+    <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
+    <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
+    <a href="billing.html" class="active"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="billing-container">
+      <h2>Current Billing Summary</h2>
+      <table>
+        <!-- <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead> -->
+        <tbody>
+          <tr>
+            <!-- <td>09/25/2025</td>
+            <td>Office Visit – Dr. Smith</td>
+            <td>$120.00</td>
+            <td>Unpaid</td> -->
+          </tr>
+          <tr>
+            <!-- <td>09/10/2025</td>
+            <td>Lab Test – Blood Panel</td>
+            <td>$75.00</td>
+            <td>Unpaid</td> -->
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total-due">Total Due: <strong>$195.00</strong></div>
+      <button class="pay-btn" id="payNowBtn">Make Payment</button>
+    </div>
+
+    <!-- COLLAPSIBLE PAYMENT HISTORY -->
+    <div class="billing-container">
+      <button type="button" class="collapsible">
+        Payment History <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <div class="content">
+        <table>
+          <thead>
+            <tr>
+              <!-- <th>Date</th>
+              <th>Payment Method</th>
+              <th>Amount</th>
+              <th>Status</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <!-- <td>08/15/2025</td>
+              <td>Credit Card (Visa)</td>
+              <td>$80.00</td>
+              <td>Completed</td> -->
+            </tr>
+            <tr>
+              <!-- <td>07/01/2025</td>
+              <td>Insurance</td>
+              <td>$220.00</td>
+              <td>Processed</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Leary Health Portal. All rights reserved.</p>
+  </footer>
+
+  <!-- POPUP -->
+  <div class="popup" id="popupMessage">
+    <i class="fa-solid fa-check-circle"></i>
+    <span>Payment submitted successfully!</span>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const popup = document.getElementById("popupMessage");
+    const payNowBtn = document.getElementById("payNowBtn");
+    const collapsible = document.querySelector(".collapsible");
+    const content = document.querySelector(".content");
+
+    // Sidebar toggle
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+    });
+
+    // Payment popup
+    payNowBtn.addEventListener("click", () => {
+      popup.classList.add("show");
+      setTimeout(() => popup.classList.remove("show"), 3000);
+    });
+
+    // Collapsible history
+    collapsible.addEventListener("click", () => {
+      collapsible.classList.toggle("active");
+      content.classList.toggle("open");
+    });
+  </script>
 </body>
 </html>

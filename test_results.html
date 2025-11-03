@@ -71,7 +71,7 @@
     }
 
     nav img {
-      width: 120px;
+      width: 220px;
       margin-bottom: 20px;
     }
 
@@ -221,7 +221,7 @@
 
   <!-- SIDEBAR -->
   <nav id="sidebar">
-    <img src="{{ url_for('static', filename='img/navLogo.png') }}" alt="logo" />
+    <img src="logo.png" alt="logo" />
     <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
     <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
     <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
@@ -234,65 +234,65 @@
   <!-- MAIN CONTENT -->
   <main>
     <section>
-      <h2>Patient Information</h2>
+      <!-- <h2>Patient Information</h2>
       <p><strong>Name:</strong> [Patient Name]</p>
       <p><strong>Age:</strong> [Patient Age]</p>
       <p><strong>Gender:</strong> [Patient Gender]</p>
-      <p><strong>Test Date:</strong> [Test Date]</p>
+      <p><strong>Test Date:</strong> [Test Date]</p> -->
     </section>
 
     <section>
       <h2>Test Results</h2>
       <table>
-        <thead>
+        <!-- <thead>
           <tr>
             <th>Test Name</th>
             <th>Result</th>
             <th>Normal Range</th>
           </tr>
-        </thead>
+        </thead> -->
         <tbody>
           <tr class="expandable">
-            <td>Complete Blood Count (CBC)</td>
+            <!-- <td>Complete Blood Count (CBC)</td>
             <td>13.4 g/dL</td>
-            <td>12.0–16.0 g/dL</td>
+            <td>12.0–16.0 g/dL</td> -->
           </tr>
           <tr class="details">
             <td colspan="3">
               <div class="details-content">
-                <strong>Physician Notes:</strong> All values within normal range.  
+                <!-- <strong>Physician Notes:</strong> All values within normal range.  
                 <br /><strong>Test Method:</strong> Automated hematology analyzer  
-                <br /><strong>Date Verified:</strong> 2025-10-02
+                <br /><strong>Date Verified:</strong> 2025-10-02 -->
               </div>
             </td>
           </tr>
 
           <tr class="expandable">
-            <td>Cholesterol (Total)</td>
+            <!-- <td>Cholesterol (Total)</td>
             <td>185 mg/dL</td>
-            <td>125–200 mg/dL</td>
+            <td>125–200 mg/dL</td> -->
           </tr>
           <tr class="details">
             <td colspan="3">
               <div class="details-content">
-                <strong>Physician Notes:</strong> Borderline high — monitor diet and exercise.  
+                <!-- <strong>Physician Notes:</strong> Borderline high — monitor diet and exercise.  
                 <br /><strong>Test Method:</strong> Enzymatic colorimetric assay  
-                <br /><strong>Date Verified:</strong> 2025-10-02
+                <br /><strong>Date Verified:</strong> 2025-10-02 -->
               </div>
             </td>
           </tr>
 
           <tr class="expandable">
-            <td>Glucose (Fasting)</td>
+            <!-- <td>Glucose (Fasting)</td>
             <td>92 mg/dL</td>
-            <td>70–99 mg/dL</td>
+            <td>70–99 mg/dL</td> -->
           </tr>
           <tr class="details">
             <td colspan="3">
               <div class="details-content">
-                <strong>Physician Notes:</strong> Normal fasting glucose. Maintain current regimen.  
+                <!-- <strong>Physician Notes:</strong> Normal fasting glucose. Maintain current regimen.  
                 <br /><strong>Test Method:</strong> Hexokinase enzymatic method  
-                <br /><strong>Date Verified:</strong> 2025-10-02
+                <br /><strong>Date Verified:</strong> 2025-10-02 -->
               </div>
             </td>
           </tr>
@@ -303,7 +303,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 Furman University Health Portal. All rights reserved.</p>
+    <p>&copy; 2025 Leary Health Portal. All rights reserved.</p>
   </footer>
 
   <!-- SCRIPT: Sidebar + Expandable Rows -->
@@ -327,6 +327,57 @@
         }
       });
     });
+
+    function getPatientInfo(){
+        
+        // Make get request to http://127.0.0.1:5000 to get 
+        fetch('http://127.0.0.1:5000/get_patient_info')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Process the data received from the server
+                // Create section for patient info
+                // get main 
+                const mainContent = document.querySelector('main');
+                const patientInfoSection = document.createElement('section');
+                heading = document.createElement('h2')
+                heading.textContent = 'Patient Information';
+                patientInfoSection.appendChild(heading);
+
+                p1 = document.createElement('p')
+                p1.innerHTML = `<strong>Name:</strong> ${data.name}`;
+                patientInfoSection.appendChild(p1);
+
+                p2 = document.createElement('p')
+                p2.innerHTML = `<strong>Age:</strong> ${data.age}`;
+                patientInfoSection.appendChild(p2);
+                p3 = document.createElement('p')
+                
+
+
+    // <section>
+    //   <h2>Patient Information</h2>
+    //   <p><strong>Name:</strong> [Patient Name]</p>
+    //   <p><strong>Age:</strong> [Patient Age]</p>
+    //   <p><strong>Gender:</strong> [Patient Gender]</p>
+    //   <p><strong>Test Date:</strong> [Test Date]</p>
+    // </section>
+
+                // Populate patient info section
+                
+                
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        
+
+
+    }
   </script>
 </body>
 </html>
