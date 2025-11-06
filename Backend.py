@@ -8,7 +8,7 @@ CORS(app)
 def home():
     return "Hello, Flask!"
 
-# test results page data
+# test results page data: inplemented
 patient_info = {
     'name': 'John Doe',
     'age': 23,
@@ -33,7 +33,7 @@ patient_info = {
     ]
 }
 
-# perscriptions info page data
+# perscriptions info page data: 
 medication_info = {
     'Current Medications': [
         {

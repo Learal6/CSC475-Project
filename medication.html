@@ -259,7 +259,7 @@
     }
   </style>
 </head>
-<body onload="initialize()">
+<body onload="initialize()", onload="getMedicationInfo()">
   <!-- HEADER -->
   <header>
     <h1>Medications & Prescriptions</h1>
@@ -272,7 +272,7 @@
     <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
     <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
     <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
-    <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+    <a href="chatbot.html"><i class="fa-solid fa-robot"></i> AI Medical Assistant</a>
     <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
     <a href="medication.html" class="active"><i class="fa-solid fa-pills"></i> Prescriptions</a>
     <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
@@ -285,11 +285,11 @@
       <table>
         <thead>
           <tr>
-            <th>Medication Name</th>
+            <!-- <th>Medication Name</th>
             <th>Dosage</th>
             <th>Instructions</th>
             <th>Prescribed By</th>
-            <th>Refill</th>
+            <th>Refill</th> -->
           </tr>
         </thead>
         <tbody>
@@ -377,62 +377,97 @@
   <script>
 
     console.log('Test2');
-    function initialize(){
-
+    function initialize() {
+    
       console.log('Test');
-
+    
       // Make GET request to http://127.0.0.1:5000/get_medication_info
-
-      fetch('http://127.0.0.1:5000/get_medication_info')
-        .then(response => response.json())
-        .then(data => {
-          const tbody = document.querySelector('tbody');
-          tbody.innerHTML = ''; // Clear existing rows
-          console.log(data['Current Medications']);
-          data.forEach(medication => {
-            console.log(medication);
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${medication.Medication_Name}</td>
-              <td>${medication.dosage}</td>
-              <td>${medication.Instructions}</td>
-              <td>${medication['Perscribed By']}</td>
-              <td><button class="refill-btn">Request Refill</button></td>
-            `;
-            tbody.appendChild(row);
-          });
-        })
-        .catch(error => console.error('Error fetching medication info:', error));
-
-
+    
+      function getMedicationInfo() {
+    
+        console.log('Fetching medication info');
+    
+        fetch('http://127.0.0.1:5000/get_medication_info')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Medication data received:', data);
+            const mainContent = document.querySelector('main');
+            const medicationInfoSection = document.createElement('section');
+            heading = document.createElement('h2')
+            heading.textContent = 'Current Medications'; 
+            medicationInfoSection.appendChild(heading);
+    
+            p1 = document.createElement('p')
+            p1.innerHTML = '<strong>Medication Name:</strong> ${data.Medication_Name}';
+            medicationInfoSection.appendChild(p1);
+    
+            p2 = document.createElement('p')
+            p2.innerHTML = '<strong>Dosage:</strong> ${data.dosage}';
+            medicationInfoSection.appendChild(p2);
+            mainContent.appendChild(medicationInfoSection);
+    
+            p3 = document.createElement('p')
+            p3.innerHTML = '<strong>Instructions:</strong> ${data.Instructions}';
+            medicationInfoSection.appendChild(p3);
+            mainContent.appendChild(medicationInfoSection);
+    
+            p4 = document.createElement('p')
+            p4.innerHTML = '<strong>Prescribed By:</strong> ${data["Perscribed By"]}';
+            medicationInfoSection.appendChild(p4);
+            mainContent.appendChild(medicationInfoSection);
+            
+    // trying to insert data into medication info section without success 
+            medicationInfoSection.appendChild(mainContent);
+          
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+            console.log(data['Current Medications']);
+            data.forEach(medication => {
+              console.log(medication);
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${medication.Medication_Name}</td>
+                <td>${medication.dosage}</td>
+                <td>${medication.Instructions}</td>
+                <td>${medication['Perscribed By']}</td>
+                <td><button class="refill-btn">Request Refill</button></td>
+              `;
+              tbody.appendChild(row);
+            });
+          })
+          .catch(error => console.error('Error fetching medication info:', error));
+      } // Closing the getMedicationInfo function
+    
+      getMedicationInfo(); // Call the function to fetch medication info
+    
+      const sidebar = document.getElementById("sidebar");
+      const menuToggle = document.getElementById("menuToggle");
+      const popup = document.getElementById("popupMessage");
+      const refillButtons = document.querySelectorAll(".refill-btn");
+      const collapsible = document.querySelector(".collapsible");
+      const content = document.querySelector(".content");
+      const arrow = collapsible.querySelector("i");
+    
+      // Sidebar toggle
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+      });
+    
+      // Popup on refill
+      refillButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          popup.classList.add("show");
+          setTimeout(() => popup.classList.remove("show"), 3000);
+        });
+      });
+    
+      // Collapsible section toggle
+      collapsible.addEventListener("click", () => {
+        collapsible.classList.toggle("active");
+        content.classList.toggle("open");
+      });
     }
 
-    const sidebar = document.getElementById("sidebar");
-    const menuToggle = document.getElementById("menuToggle");
-    const popup = document.getElementById("popupMessage");
-    const refillButtons = document.querySelectorAll(".refill-btn");
-    const collapsible = document.querySelector(".collapsible");
-    const content = document.querySelector(".content");
-    const arrow = collapsible.querySelector("i");
-
-    // Sidebar toggle
-    menuToggle.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-    });
-
-    // Popup on refill
-    refillButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        popup.classList.add("show");
-        setTimeout(() => popup.classList.remove("show"), 3000);
-      });
-    });
-
-    // Collapsible section toggle
-    collapsible.addEventListener("click", () => {
-      collapsible.classList.toggle("active");
-      content.classList.toggle("open");
-    });
   </script>
 </body>
 </html>

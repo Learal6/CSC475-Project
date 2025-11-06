@@ -271,7 +271,7 @@
   </style>
 </head>
 
-<body>
+<body onload="getBillingInfo()">
   <!-- HEADER -->
   <header>
     <h1>Billing & Insurance</h1>
@@ -284,7 +284,7 @@
     <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
     <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
     <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
-    <a href="{{ url_for('visits') }}"><i class="fa-solid fa-notes-medical"></i> Visits</a>
+    <a href="chatbot.html"><i class="fa-solid fa-robot"></i> AI Medical Assistant</a>
     <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
     <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
     <a href="billing.html" class="active"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
@@ -393,6 +393,58 @@
       collapsible.classList.toggle("active");
       content.classList.toggle("open");
     });
+
+    function get_medication_info(){
+      console.log('Testing medication call');
+
+      fetch('http://127.0.0.1:5000/get_medication_info')
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          const mainContent = document.querySelector('main');
+          const billingInfoSection = document.createElement('section');
+          heading = document.createElement('h2')
+          heading.textContent = 'Billing & Insurance Information';
+          billingInfoSection.appendChild(heading);
+
+          p1 = document.createElement('p')
+          p1.innerHTML = `<strong>Date:</strong> ${data.date}`;
+          billingInfoSection.appendChild(p1);
+
+          p2 = document.createElement('p')
+          p2.innerHTML = `<strong>Description:</strong> ${data.description}`;
+          billingInfoSection.appendChild(p2);
+          p3 = document.createElement('p')
+
+          p3 = document.createElement('p')
+          p3.innerHTML = `<strong>Amount:</strong> ${data.amount}`;
+          billingInfoSection.appendChild(p3);
+
+          p4 = document.createElement('p')
+          p4.innerHTML = `<strong>Status:</strong> ${data.status}`;
+          billingInfoSection.appendChild(p4);
+
+          mainContent.appendChild(billingInfoSection);
+
+          const
+          billingResultsSection = document.createElement('section');
+          heading = document.createElement('h2')
+          heading.textContent = 'Billing Details';
+          billingResultsSection.appendChild(heading);
+
+          for (var i=0; i<data.billing.length; i++){
+
+            var bill = data.billing[i];
+
+            console.log(bill);
+          }
+    }
   </script>
 </body>
 </html>
