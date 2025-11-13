@@ -281,84 +281,48 @@
   <!-- MAIN CONTENT -->
   <main>
     <div class="medication-container">
-      <h2>Current Medications</h2>
-      <table>
+      <!-- <h2>Current Medications</h2> -->
+      <!-- <table>
         <thead>
           <tr>
-            <!-- <th>Medication Name</th>
+          <th>Medication Name</th>
             <th>Dosage</th>
             <th>Instructions</th>
             <th>Prescribed By</th>
-            <th>Refill</th> -->
+            <th>Refill</th> 
           </tr>
         </thead>
         <tbody>
           <tr>
-            <!-- <td>Lisinopril</td>
+             <td>Lisinopril</td>
             <td>10 mg</td>
             <td>Take once daily</td>
-            <td>Dr. Smith</td> -->
-            <td><button class="refill-btn">Request Refill</button></td>
+            <td>Dr. Smith</td> 
+             <td><button class="refill-btn">Request Refill</button></td> 
           </tr>
           <tr>
-            <!-- <td>Metformin</td>
+             <td>Metformin</td>
             <td>500 mg</td>
             <td>Take twice daily with meals</td>
-            <td>Dr. Patel</td> -->
-            <td><button class="refill-btn">Request Refill</button></td>
+            <td>Dr. Patel</td> 
+            <td><button class="refill-btn">Request Refill</button></td> 
           </tr>
           <tr>
-            <!-- <td>Atorvastatin</td>
+             <td>Atorvastatin</td>
             <td>20 mg</td>
             <td>Take once at bedtime</td>
-            <td>Dr. Johnson</td> -->
-            <td><button class="refill-btn">Request Refill</button></td>
+            <td>Dr. Johnson</td> 
+             <td><button class="refill-btn">Request Refill</button></td> 
           </tr>
         </tbody>
-      </table>
+      </table> -->
     </div>
 
     <!-- COLLAPSIBLE PAST MEDICATIONS -->
-    <div class="medication-container">
+    <div class="medication-container2">
       <button type="button" class="collapsible">
         Previous Medications <i class="fa-solid fa-chevron-down"></i>
       </button>
-      <div class="content">
-        <table>
-          <thead>
-            <tr>
-              <th>Medication Name</th>
-              <th>Dosage</th>
-              <th>Duration</th>
-              <th>Prescribed By</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <!-- <td>Amoxicillin</td>
-              <td>500 mg</td>
-              <td>10 days</td>
-              <td>Dr. Miller</td>
-              <td>Completed</td> -->
-            </tr>
-            <tr>
-              <!-- <td>Prednisone</td>
-              <td>20 mg</td>
-              <td>5 days</td>
-              <td>Dr. Brown</td>
-              <td>Completed</td> -->
-            </tr>
-            <tr>
-              <!-- <td>Azithromycin</td>
-              <td>250 mg</td>
-              <td>3 days</td>
-              <td>Dr. Clark</td>
-              <td>Completed</td> -->
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </main>
 
@@ -391,40 +355,35 @@
           .then(response => response.json())
           .then(data => {
             console.log('Medication data received:', data);
-            const mainContent = document.querySelector('main');
-            const medicationInfoSection = document.createElement('section');
-            heading = document.createElement('h2')
-            heading.textContent = 'Current Medications'; 
-            medicationInfoSection.appendChild(heading);
-    
-            p1 = document.createElement('p')
-            p1.innerHTML = '<strong>Medication Name:</strong> ${data.Medication_Name}';
-            medicationInfoSection.appendChild(p1);
-    
-            p2 = document.createElement('p')
-            p2.innerHTML = '<strong>Dosage:</strong> ${data.dosage}';
-            medicationInfoSection.appendChild(p2);
-            mainContent.appendChild(medicationInfoSection);
-    
-            p3 = document.createElement('p')
-            p3.innerHTML = '<strong>Instructions:</strong> ${data.Instructions}';
-            medicationInfoSection.appendChild(p3);
-            mainContent.appendChild(medicationInfoSection);
-    
-            p4 = document.createElement('p')
-            p4.innerHTML = '<strong>Prescribed By:</strong> ${data["Perscribed By"]}';
-            medicationInfoSection.appendChild(p4);
-            mainContent.appendChild(medicationInfoSection);
+
+            var currentMedications = data['Current Medications'];
+            var previousMedications = data['Previous Medications'];
+
             
-    // trying to insert data into medication info section without success 
-            medicationInfoSection.appendChild(mainContent);
-          
-            const tbody = document.querySelector('tbody');
-            tbody.innerHTML = ''; // Clear existing rows
-            console.log(data['Current Medications']);
-            data.forEach(medication => {
-              console.log(medication);
-              const row = document.createElement('tr');
+            var container = document.querySelector('.medication-container');
+
+            // create heading
+            var heading = document.createElement('h2');
+            heading.textContent = 'Current Medications';
+            container.appendChild(heading);
+
+            // create table
+            var table = document.createElement('table');
+            var thead = document.createElement('thead');
+            var tbody = document.createElement('tbody');
+            thead.innerHTML = `
+              <tr>
+                <th>Medication Name</th>
+                <th>Dosage</th>
+                <th>Instructions</th>
+                <th>Prescribed By</th>
+                <th>Refill</th>
+              </tr>
+            `;
+
+            currentMedications.forEach(medication => {
+              
+              var row = document.createElement('tr');
               row.innerHTML = `
                 <td>${medication.Medication_Name}</td>
                 <td>${medication.dosage}</td>
@@ -434,6 +393,97 @@
               `;
               tbody.appendChild(row);
             });
+
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+
+            var container = document.querySelector('.medication-container2');
+            var heading = document.createElement('h2');
+            heading.textContent = 'Prevous Medications';
+            container.appendChild(heading);
+
+            // create table
+            var table = document.createElement('table');
+            var thead = document.createElement('thead');
+            var tbody = document.createElement('tbody');
+            thead.innerHTML = `
+              <tr>
+                <th>Medication Name</th>
+                <th>Dosage</th>
+                <th>Instructions</th>
+                <th>Prescribed By</th>
+                <th>Refill</th>
+              </tr>
+            `;
+
+            previousMedications.forEach(medication => {
+              
+              var row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${medication.Medication_Name}</td>
+                <td>${medication.dosage}</td>
+                <td>${medication.Duration}</td>
+                <td>${medication['Perscribed By']}</td>
+                <td>${medication.Status}</td>
+              `;
+              tbody.appendChild(row);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+            
+
+
+            // const mainContent = document.querySelector('main');
+    //         const mainContent = document.createElement('main');
+
+    //         const medicationInfoSection = document.createElement('section');
+    //         heading = document.createElement('h2')
+    //         heading.textContent = 'Current Medications'; 
+    //         medicationInfoSection.appendChild(heading);
+    
+    //         p1 = document.createElement('p')
+    //         p1.innerHTML = '<strong>Medication Name:</strong> ${data.Medication_Name}';
+    //         medicationInfoSection.appendChild(p1);
+    
+    //         p2 = document.createElement('p')
+    //         p2.innerHTML = '<strong>Dosage:</strong> ${data.dosage}';
+    //         medicationInfoSection.appendChild(p2);
+    //         // mainContent.appendChild(medicationInfoSection);
+    
+    //         p3 = document.createElement('p')
+    //         p3.innerHTML = '<strong>Instructions:</strong> ${data.Instructions}';
+    //         medicationInfoSection.appendChild(p3);
+    //         // mainContent.appendChild(medicationInfoSection);
+    
+    //         p4 = document.createElement('p')
+    //         p4.innerHTML = '<strong>Prescribed By:</strong> ${data["Perscribed By"]}';
+    //         medicationInfoSection.appendChild(p4);
+    //         mainContent.appendChild(medicationInfoSection);
+
+    //         console.log('TESTS');
+            
+    // // trying to insert data into medication info section without success 
+    //         medicationInfoSection.appendChild(mainContent);
+          
+    //         const tbody = document.querySelector('tbody');
+    //         tbody.innerHTML = ''; // Clear existing rows
+    //         console.log(data['Current Medications']);
+    //         data.forEach(medication => {
+    //           console.log(medication);
+    //           const row = document.createElement('tr');
+    //           row.innerHTML = `
+    //             <td>${medication.Medication_Name}</td>
+    //             <td>${medication.dosage}</td>
+    //             <td>${medication.Instructions}</td>
+    //             <td>${medication['Perscribed By']}</td>
+    //             <td><button class="refill-btn">Request Refill</button></td>
+    //           `;
+    //           tbody.appendChild(row);
+            // });
           })
           .catch(error => console.error('Error fetching medication info:', error));
       } // Closing the getMedicationInfo function
