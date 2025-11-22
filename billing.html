@@ -293,7 +293,7 @@
   <!-- MAIN CONTENT -->
   <main>
     <div class="billing-container">
-      <h2>Current Billing Summary</h2>
+      <!-- <h2>Current Billing Summary</h2> -->
       <table>
         <!-- <thead>
           <tr>
@@ -324,10 +324,10 @@
     </div>
 
     <!-- COLLAPSIBLE PAYMENT HISTORY -->
-    <div class="billing-container">
-      <button type="button" class="collapsible">
+    <div class="billing-container2">
+      <!-- <button type="button" class="collapsible">
         Payment History <i class="fa-solid fa-chevron-down"></i>
-      </button>
+      </button> -->
       <div class="content">
         <table>
           <thead>
@@ -394,10 +394,10 @@
       content.classList.toggle("open");
     });
 
-    function get_medication_info(){
+    function getBillingInfo(){
       console.log('Testing medication call');
 
-      fetch('http://127.0.0.1:5000/get_medication_info')
+      fetch('http://127.0.0.1:5000/get_billing_info')
           .then(response => {
               if (!response.ok) {
                   throw new Error('Network response was not ok');
@@ -406,45 +406,103 @@
           })
           .then(data => {
             console.log(data);
+
+            var currentBilling = data['Current billing summary'];
+            var paymentHistory = data['Payment History'];
+
+            var container = document.querySelector('.billing-container');
+
+            // create the heading
+            var heading = document.createElement('h2');
+            heading.textContent = 'Current Billing Summary';
+            container.appendChild(heading);
+
+            //create the table
+            var table = document.createElement('table');
+            var thead = document.createElement('thead');
+            var tbody = document.createElement('tbody');
+            thead.innerHTML = `
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            `;
+
+            currentBilling.forEach(medication => {
+              var row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${medication.Date}</td>
+                <td>${medication.Description}</td>
+                <td>${medication.Amount}</td>
+                <td>${medication.Status}</td>
+              `;
+              tbody.appendChild(row);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+
+            var container = document.querySelector('.billing-container2');
+            var heading = document.createElement('h2');
+            heading.textContent = 'Payment History';
+            container.appendChild(heading);
+
+            //create table
+            var table = document.createElement('table');
+            var thead = document.createElement('thead');
+            var tbody = document.createElement('tbody');
+            thead.innerHTML = `
+              <tr>
+                <th>Date</th>
+                <th>Payment Method</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            `;
+
+            paymentHistory.forEach(medication => {
+              var row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${medication.Date}</td>
+                <td>${medication['Payment Method']}</td>
+                <td>${medication.Amount}</td>
+                <td>${medication.Status}</td>
+              `;
+              tbody.appendChild(row);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+
+
+            // getBillingInfo(data);
+
           })
-          const mainContent = document.querySelector('main');
-          const billingInfoSection = document.createElement('section');
-          heading = document.createElement('h2')
-          heading.textContent = 'Billing & Insurance Information';
-          billingInfoSection.appendChild(heading);
 
-          p1 = document.createElement('p')
-          p1.innerHTML = `<strong>Date:</strong> ${data.date}`;
-          billingInfoSection.appendChild(p1);
+          
 
-          p2 = document.createElement('p')
-          p2.innerHTML = `<strong>Description:</strong> ${data.description}`;
-          billingInfoSection.appendChild(p2);
-          p3 = document.createElement('p')
-
-          p3 = document.createElement('p')
-          p3.innerHTML = `<strong>Amount:</strong> ${data.amount}`;
-          billingInfoSection.appendChild(p3);
-
-          p4 = document.createElement('p')
-          p4.innerHTML = `<strong>Status:</strong> ${data.status}`;
-          billingInfoSection.appendChild(p4);
-
-          mainContent.appendChild(billingInfoSection);
-
-          const
-          billingResultsSection = document.createElement('section');
-          heading = document.createElement('h2')
-          heading.textContent = 'Billing Details';
-          billingResultsSection.appendChild(heading);
-
-          for (var i=0; i<data.billing.length; i++){
-
-            var bill = data.billing[i];
-
-            console.log(bill);
-          }
     }
+
+    // function getBillingInfo(data){
+    
+    //   const billingResultsSection = document.createElement('section');
+    //   heading = document.createElement('h2')
+    //   heading.textContent = 'Billing Details';
+    //   billingResultsSection.appendChild(heading);
+
+    //   for (var i=0; i<data.billing.length; i++){
+
+    //     var bill = data.billing[i];
+
+    //     console.log(bill);
+    //   }
+    // }
+
+    
   </script>
 </body>
 </html>

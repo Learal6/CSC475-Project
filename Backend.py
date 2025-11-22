@@ -44,11 +44,13 @@ medication_info = {
         },
         {
             'Medication_Name': 'Metformin',
+            'dosage': '500 mg',
             'Instructions': 'Take twice daily with meals',
             'Perscribed By': 'Dr. Patel'
         },
         {
             'Medication_Name': 'Atorvastatin',
+            'dosage': '20 mg',
             'Instructions': 'Take once daily at bedtime',
             'Perscribed By': 'Dr. Lee'
         }

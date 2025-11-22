@@ -320,9 +320,9 @@
 
     <!-- COLLAPSIBLE PAST MEDICATIONS -->
     <div class="medication-container2">
-      <button type="button" class="collapsible">
+      <!-- <button type="button" class="collapsible">
         Previous Medications <i class="fa-solid fa-chevron-down"></i>
-      </button>
+      </button> -->
     </div>
   </main>
 
@@ -401,7 +401,7 @@
 
             var container = document.querySelector('.medication-container2');
             var heading = document.createElement('h2');
-            heading.textContent = 'Prevous Medications';
+            heading.textContent = 'Previous Medications';
             container.appendChild(heading);
 
             // create table
@@ -424,9 +424,9 @@
               row.innerHTML = `
                 <td>${medication.Medication_Name}</td>
                 <td>${medication.dosage}</td>
-                <td>${medication.Duration}</td>
+                <td>${medication.Instructions}</td>
                 <td>${medication['Perscribed By']}</td>
-                <td>${medication.Status}</td>
+                <td><button class="refill-btn">Request Refill</button></td>
               `;
               tbody.appendChild(row);
             });

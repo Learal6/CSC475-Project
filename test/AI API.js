@@ -1,4 +1,11 @@
-// const apiKey = "";
+from openai import OpenAI
+
+key = ""
+model = "gpt-4.1-mini"
+max_tokens = 60
+temperature = 0.7
+
+client = OPenAI(api_key=key)
 const chatDiv = document.getElementById('chat');
 const inputField = document.getElementById('input');
 const apiKeyField = document.getElementById('apiKey');
