@@ -351,12 +351,15 @@
       addLoadingIndicator();
 
       try {
+        // read from file key.txt
+        const apiKey = await fetch('key.txt').then(res => res.text()).then(text => text.trim());
+        
         // Call OpenAI API
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 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' 
+            'Authorization': apiKey
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
