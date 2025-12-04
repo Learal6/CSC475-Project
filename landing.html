@@ -1,175 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Portal - Home</title>
 
+  <!-- Fonts & Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
+    body {
+      background: #f6f9fb;
+      color: #333;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 60px 1fr;
+      min-height: 100vh;
+    }
 
+    /* HEADER */
+    header {
+      grid-column: 1 / 3;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #007baf;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #007baf;
+    }
+
+    /* SIDEBAR */
+    nav {
+      background-color: #ffffff;
+      border-right: 1px solid #e0e0e0;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    nav img {
+      width: 220px;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #333;
+      padding: 10px 14px;
+      margin: 5px 0;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #e8f6fc;
+      color: #007baf;
+    }
+
+    nav a.active {
+      background-color: #007baf;
+      color: white;
+    }
+
+    /* MAIN */
+    main {
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    h1 {
+      color: #007baf;
+      margin-bottom: 30px;
+    }
+
+    /* Appointments Section */
+    .appointments-section {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 1200px;
+      margin-bottom: 30px;
+      padding: 25px;
+    }
+
+    .appointments-section h2 {
+      color: #007baf;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+    }
+
+    .appointment-card {
+      background: #f2f9fc;
+      border-left: 4px solid #007baf;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .appointment-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 123, 175, 0.2);
+      transform: translateX(5px);
+    }
+
+    .appointment-date {
+      font-weight: 600;
+      color: #007baf;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .appointment-reason {
+      color: #555;
+      padding-left: 10px;
+      line-height: 1.6;
+    }
+
+    .no-appointments {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+
+    .no-appointments i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    .view-calendar-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #007baf;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .view-calendar-btn:hover {
+      background-color: #005f87;
+    }
+
+    .medication-card {
+      background: #fff5f5;
+      border-left: 4px solid #ff9700;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .medication-card:hover {
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+      transform: translateX(5px);
+    }
+
+    .medication-name {
+      font-weight: 600;
+      color: #ff9700;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+
+    .medication-details {
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .medication-details span {
+      display: block;
+      margin: 4px 0;
+    }
+
+    .medication-details strong {
+      color: #333;
+    }
+
+    .appointment-count {
+      background: #007baf;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-left: 10px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
       body {
-        background: #f6f9fb;
-        color: #333;
-        display: grid;
-        grid-template-columns: 250px 1fr;
-        grid-template-rows: 80px 1fr;
-        height: 100vh;
-        gap: 20px;
+        grid-template-columns: 1fr;
       }
 
-      /* ---------- HEADER ---------- */
-      header {
-        grid-column: 1 / 3;
-        background-color: #ffffff;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 40px;
-      }
-
-      header h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #007baf;
-      }
-
-      /* ---------- NAVIGATION ---------- */
       nav {
-        background-color: #ffffff;
-        border-right: 1px solid #e0e0e0;
-        padding: 20px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-      }
-
-      nav img {
-        width: 220px;
-        margin-bottom: 20px;
-      }
-
-      nav a {
-        display: block;
-        text-decoration: none;
-        color: #333;
-        padding: 12px 16px;
-        margin: 5px 0;
-        border-radius: 8px;
-        font-weight: 500;
+        position: fixed;
+        left: -260px;
+        top: 60px;
+        height: calc(100% - 60px);
+        width: 250px;
+        z-index: 5;
         transition: all 0.3s ease;
       }
 
-      nav a:hover {
-        background-color: #e8f6fc;
-        color: #007baf;
+      nav.active {
+        left: 0;
       }
 
-      /* ---------- MAIN CONTENT ---------- */
+      .menu-btn {
+        display: block;
+      }
+
       main {
-        padding: 20px 40px;
-        overflow-y: auto;
+        padding-top: 80px;
       }
-
-      .upcoming-appointments-container {
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-      }
-
-      .upcoming-appointments-header {
-        display: flex;
-        align-items: center;
-        justify-content:space-between;
-        margin-bottom: 10px;
-      }
-
-      .upcoming-appointments {
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        max-width: flex;
-      }
-
-      .upcoming-appointments- label {
-        display: block;
-        margin-top: 10px;
-        font-weight: 500px;
-      }
-
-      .appointment-form label {
-        display: block;
-        margin-top: 10px;
-        font-weight: 500px;
-      }
-
-      .appointment-form input,
-      .appointment-form textarea {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
-      }
-
-      .landing-page-billing-column {
-        font-size: 28px;
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      }
-    </style>
+    }
+  </style>
 </head>
-    <!-- HEADER -->
-    <header>
-        <h1> Welcome to Leary Patient Portal</h1>
-        <i class="fas fa-user-circle fa-2x"></i>
-    </header>
-    <!-- Nav bar -->
-    <nav>
-      <img src="logo.png" alt="logo" />
-      <a href="landing.html"><i class="fa-solid fa-home"></i> Home</a>
-      <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
-      <a href="schedule.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
-      <a href="bot-test.html"><i class="fa-solid fa-robot"></i> AI Medical Assistant</a>
-      <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
-      <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
-      <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
-    </nav>
-      <!--MAIN CONTENT-->
-    <main>
+<body>
 
-      <div id = "Upcoming Appointments">
-        <center>
-          <h2> Upcoming Appointments</h2>
-        </center>
-      </div>
+  <!-- HEADER -->
+  <header>
+    <h1>Patient Portal - Home</h1>
+    <i class="fas fa-bars menu-btn" id="menuToggle"></i>
+  </header>
 
-      <div id = "Landing Page Billing Column"
-      <center>
-        <h2> Billing Summary</h2>
-      </center>
-   
+  <!-- SIDEBAR NAV -->
+  <nav id="sidebar">
+    <img src="logo.png" alt="logo" />
+    <a href="landing.html" class="active"><i class="fa-solid fa-home"></i> Home</a>
+    <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Physician</a>
+    <a href="calendar.html"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
+    <a href="bot-test.html"><i class="fa-solid fa-robot"></i> AI Medical Assistant</a>
+    <a href="test_results.html"><i class="fa-solid fa-vials"></i> Test Results</a>
+    <a href="medication.html"><i class="fa-solid fa-pills"></i> Prescriptions</a>
+    <a href="billing.html"><i class="fa-solid fa-file-invoice-dollar"></i> Billing</a>
+  </nav>
 
-    </main>
+  <!-- MAIN -->
+  <main>
+    <h1>Welcome to Your Patient Portal</h1>
 
-  
+    <!-- Upcoming Appointments Section -->
+    <div class="appointments-section">
+      <h2>
+        <i class="fa-solid fa-calendar-check"></i>
+        Upcoming Appointments
+        <span class="appointment-count" id="appointmentCount">0</span>
+      </h2>
+      <div id="appointmentsList"></div>
+      <a href="calendar.html" class="view-calendar-btn">
+        <i class="fa-solid fa-calendar"></i> View Full Calendar
+      </a>
+    </div>
+
+    <!-- Current Medications Section -->
+    <div class="appointments-section">
+      <h2>
+        <i class="fa-solid fa-pills"></i>
+        Current Medications
+        <span class="appointment-count" id="medicationCount">0</span>
+      </h2>
+      <div id="medicationsList"></div>
+      <a href="medication.html" class="view-calendar-btn">
+        <i class="fa-solid fa-prescription-bottle-medical"></i> View All Medications
+      </a>
+    </div>
+  </main>
+
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+
+    // Toggle sidebar on mobile
+    menuToggle.addEventListener("click", () => sidebar.classList.toggle("active"));
+
+    // Get appointments from localStorage
+    const appointments = JSON.parse(localStorage.getItem("appointments")) || {};
+    const appointmentsList = document.getElementById("appointmentsList");
+    const appointmentCount = document.getElementById("appointmentCount");
+
+    function displayAppointments() {
+      // Get today's date at midnight for comparison
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Convert appointments object to array and sort by date
+      const appointmentArray = [];
+      
+      for (const [dateString, reasons] of Object.entries(appointments)) {
+        const apptDate = new Date(dateString);
+        reasons.forEach(reason => {
+          appointmentArray.push({
+            date: apptDate,
+            dateString: dateString,
+            reason: reason,
+            isPast: apptDate < today
+          });
+        });
+      }
+
+      // Sort by date (earliest first)
+      appointmentArray.sort((a, b) => a.date - b.date);
+
+      // Filter for upcoming appointments
+      const upcomingAppointments = appointmentArray.filter(appt => !appt.isPast);
+
+      // Update count
+      appointmentCount.textContent = upcomingAppointments.length;
+
+      // Display appointments
+      if (appointmentArray.length === 0) {
+        appointmentsList.innerHTML = `
+          <div class="no-appointments">
+            <i class="fa-solid fa-calendar-xmark"></i>
+            <p>No appointments scheduled yet.</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">
+              Click "View Full Calendar" below to schedule your first appointment.
+            </p>
+          </div>
+        `;
+      } else if (upcomingAppointments.length === 0) {
+        appointmentsList.innerHTML = `
+          <div class="no-appointments">
+            <i class="fa-solid fa-calendar-check"></i>
+            <p>No upcoming appointments.</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">
+              All your appointments are in the past.
+            </p>
+          </div>
+        `;
+      } else {
+        appointmentsList.innerHTML = "";
         
+        // Display upcoming appointments
+        upcomingAppointments.forEach(appt => {
+          const card = document.createElement("div");
+          card.classList.add("appointment-card");
+          
+          // Format date nicely
+          const formattedDate = appt.date.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          });
 
+          // Calculate days until appointment
+          const daysUntil = Math.ceil((appt.date - today) / (1000 * 60 * 60 * 24));
+          let timeInfo = "";
+          if (daysUntil === 0) {
+            timeInfo = " (Today)";
+          } else if (daysUntil === 1) {
+            timeInfo = " (Tomorrow)";
+          } else if (daysUntil <= 7) {
+            timeInfo = ` (In ${daysUntil} days)`;
+          }
 
-    </body>
+          card.innerHTML = `
+            <div class="appointment-date">
+              <i class="fa-solid fa-calendar-day"></i>
+              ${formattedDate}${timeInfo}
+            </div>
+            <div class="appointment-reason">${appt.reason}</div>
+          `;
+          
+          appointmentsList.appendChild(card);
+        });
+      }
+    }
+
+    // Display appointments on page load
+    displayAppointments();
+
+    // Optional: Refresh appointments if localStorage changes (works across tabs)
+    window.addEventListener("storage", (e) => {
+      if (e.key === "appointments") {
+        displayAppointments();
+      }
+    });
+
+    // ============================================
+    // MEDICATIONS SECTION
+    // ============================================
+    const medicationsList = document.getElementById("medicationsList");
+    const medicationCount = document.getElementById("medicationCount");
+
+    function displayMedications() {
+      // Show loading state
+      medicationsList.innerHTML = `
+        <div class="no-appointments">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <p>Loading medications...</p>
+        </div>
+      `;
+
+      // Fetch medication data from API
+      fetch('http://127.0.0.1:5000/get_medication_info')
+        .then(response => response.json())
+        .then(data => {
+          const currentMedications = data['Current Medications'];
+
+          // Update count
+          medicationCount.textContent = currentMedications.length;
+
+          // Display medications
+          if (currentMedications.length === 0) {
+            medicationsList.innerHTML = `
+              <div class="no-appointments">
+                <i class="fa-solid fa-pills"></i>
+                <p>No current medications on file.</p>
+              </div>
+            `;
+          } else {
+            medicationsList.innerHTML = "";
+            
+            currentMedications.forEach(medication => {
+              const card = document.createElement("div");
+              card.classList.add("medication-card");
+              
+              card.innerHTML = `
+                <div class="medication-name">
+                  <i class="fa-solid fa-prescription-bottle"></i>
+                  ${medication.Medication_Name}
+                </div>
+                <div class="medication-details">
+                  <span><strong>Dosage:</strong> ${medication.dosage}</span>
+                  <span><strong>Instructions:</strong> ${medication.Instructions}</span>
+                  <span><strong>Prescribed By:</strong> ${medication['Perscribed By']}</span>
+                </div>
+              `;
+              
+              medicationsList.appendChild(card);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching medication info:', error);
+          medicationsList.innerHTML = `
+            <div class="no-appointments">
+              <i class="fa-solid fa-exclamation-triangle"></i>
+              <p>Unable to load medications.</p>
+              <p style="font-size: 0.9rem; margin-top: 10px;">
+                Please check your connection or try again later.
+              </p>
+            </div>
+          `;
+        });
+    }
+
+    // Display medications on page load
+    displayMedications();
+  </script>
+</body>
 </html>
-
-
-
